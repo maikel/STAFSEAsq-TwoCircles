@@ -1,4 +1,4 @@
-#include "TwoCircles.h"
+#include "STAFSEAsq/init/TwoCircles.h"
 
 #include <array>
 #include <cmath>
@@ -10,6 +10,7 @@ using std::min;
 using std::abs;
 
 namespace STAFSEAsq {
+namespace init {
 
 // You can only use this class with float or double
 
@@ -113,4 +114,5 @@ floatT TwoCircles<floatT>::distance(floatT x, floatT y) const {
 	return min(abs(norm(Y) - R), abs(norm(Y - X) - r));
 }
 
+}
 }

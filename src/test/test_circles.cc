@@ -1,4 +1,4 @@
-#include "TwoCircles.h"
+#include "STAFSEAsq/init/TwoCircles.h"
 
 #include <iostream>
 #include <array>
@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	STAFSEAsq::TwoCircles<float> circles(5., 7., 6.);
+	STAFSEAsq::init::TwoCircles<float> circles(5., 7., 6.);
 
 	size_t N = 0;
 

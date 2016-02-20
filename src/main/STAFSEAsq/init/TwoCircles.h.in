@@ -5,6 +5,7 @@
 #include <sstream>
 
 namespace STAFSEAsq {
+namespace init {
 
 /**
  * This class describes the intial condition for two circles where one has its
@@ -59,6 +60,7 @@ public:
 	floatT distance(floatT x, floatT y) const;
 };
 
+}
 }
 
 #endif /* TWOCIRCLES_H_ */
