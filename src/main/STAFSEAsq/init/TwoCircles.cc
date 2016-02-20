@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cmath>
-#include <iostream>
 
 using std::array;
 using std::sqrt;
