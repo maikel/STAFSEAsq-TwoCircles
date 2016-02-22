@@ -1,9 +1,9 @@
 #include "STAFSEAsq/init/TwoCircles.h"
 
-#include <array>
 #include <cmath>
+#include <cassert>
+#include <vector>
 
-using std::array;
 using std::sqrt;
 using std::min;
 using std::abs;
@@ -39,29 +39,10 @@ TwoCircles<floatT>::~TwoCircles() {
 	// empty destructor
 }
 
-/*
- * Define some vector operations like Difference and scalar product here.
- */
 
 template<typename floatT>
-floatT operator*(const array<floatT, 2> &x, const array<floatT, 2> &y) {
-	return x[0] * y[0] + x[1] * y[1];
-}
-
-template<typename floatT>
-array<floatT, 2> operator*(floatT lambda, const array<floatT, 2> &x) {
-	return array<floatT, 2>( { x[0] * lambda, x[1] * lambda });
-}
-
-template<typename floatT>
-array<floatT, 2> operator-(const array<floatT, 2> &x,
-		const array<floatT, 2> &y) {
-	return {x[0]-y[0], x[1]-y[1]};
-}
-
-template<typename floatT>
-floatT norm(array<floatT, 2> x) {
-	return sqrt(x * x);
+floatT norm(floatT x, floatT y) {
+	return sqrt(x * x + y * y);
 }
 
 /**
@@ -69,48 +50,35 @@ floatT norm(array<floatT, 2> x) {
  */
 template<typename floatT>
 floatT TwoCircles<floatT>::distance(floatT x, floatT y) const {
-	// vector representation of input
-	array<floatT, 2> Y = { x, y };
-	// vector to the origin of the snd circle
-	array<floatT, 2> X = { a + b, 0 };
-	// this vector defines hyperplane conditions
-	array<floatT, 2> Q;
 
 	if (abs(y) < h) {
-		array<floatT, 2> upper = {a, h};
-		array<floatT, 2> lower = {a, -h};
-
 		if (x < a && y >= 0) {
-			Q = {h, -a};
-			floatT mu = Y*Q;
+			floatT mu = x*h - y*a;
 			if (mu > 0)
-				return norm(Y-upper);
+				return norm(x-a, y-h);
 			else
-				return abs(norm(Y)-R);
+				return abs(norm(x,y)-R);
 		} else if (x >= a && y >= 0) {
-			Q = {-h, -b};
-			floatT mu = (Y-upper)*Q;
+			floatT mu = (a-x)*h + (h-y)*b;
 			if (mu > 0)
-				return norm(Y-upper);
+				return norm(x-a, y-h);
 			else
-				return abs(norm(Y - X) - r);
+				return abs(norm(x-a-b, y) - r);
 		} else if (x < a && y < 0) {
-			Q = {h, a};
-			floatT mu = Y*Q;
+			floatT mu = x*h + y*a;
 			if (mu > 0)
-				return norm(Y-lower);
+				return norm(x-a, y+h);
 			else
-				return abs(norm(Y)-R);
+				return abs(norm(x,y)-R);
 		} else if (x >= a && y < 0) {
-			Q = {-h, +b};
-			floatT mu = (Y-lower)*Q;
+			floatT mu = (a-x)*h + (y+h)*b;
 			if (mu > 0)
-				return norm(Y-lower);
+				return norm(x-a, y+h);
 			else
-				return abs(norm(Y - X) - r);
+				return abs(norm(x-a-b, y) - r);
 		}
 	}
-	return min(abs(norm(Y) - R), abs(norm(Y - X) - r));
+	return min(abs(norm(x,y) - R), abs(norm(x-a-b, y) - r));
 }
 
 }
